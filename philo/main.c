@@ -12,42 +12,50 @@
 
 #include "philo.h"
 
-void	*philo_routine(void *philo_state)
+int	check_end_conditions(t_philo_data *philo_state, uint64_t now)
 {
 	int	i;
+	int	eated;
 
 	i = 0;
-	while (philo_state && i < 2)
-	{
-		printf("sus ");
-		i++;
-	}
-	return (NULL);
-}
-
-void	init_args(t_philo_data *philo_state, int argc, char *argv[])
-{
-	memset(philo_state, 0, sizeof(t_philo_data));
-	philo_state->num_of_philo = ft_atoi(argv[1]);
-	philo_state->time_to_die = ft_atoi(argv[2]);
-	philo_state->time_to_eat = ft_atoi(argv[3]);
-	philo_state->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
-		philo_state->num_of_eat = ft_atoi(argv[5]);
-}
-
-int	init_threads(pthread_t *philo, t_philo_data *philo_state)
-{
-	int	i;
-
-	i = 0;
+	eated = 0;
 	while (i < philo_state->num_of_philo)
 	{
-		if (pthread_create(&philo[i], NULL, philo_routine, philo_state))
+		if (now - philo_state->philos[i].last_meal > \
+			philo_state->time_to_die)
+		{
+			printf("%llu %d is died\n", \
+				ft_get_time() - philo_state->start_time, i);
+			philo_state->is_end = 1;
 			return (1);
+		}
+		if (philo_state->num_of_eat)
+			if (philo_state->philos[i].meals == philo_state->num_of_eat)
+				eated++;
+		pthread_mutex_unlock(philo_state->action);
 		i++;
 	}
+	if (philo_state->num_of_eat && eated == philo_state->num_of_philo)
+		return (1);
 	return (0);
+}
+
+void	check_dead_philo(t_philo_data *philo_state)
+{
+	uint64_t	now;
+
+	while (1)
+	{
+		now = ft_get_time() - philo_state->start_time;
+		pthread_mutex_lock(philo_state->action);
+		if (check_end_conditions(philo_state, now))
+		{
+			philo_state->is_end = 1;
+			pthread_mutex_unlock(philo_state->action);
+			break ;
+		}
+		pthread_mutex_unlock(philo_state->action);
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -70,8 +78,10 @@ int	main(int argc, char *argv[])
 	}
 	philo_state = malloc(sizeof(t_philo_data));
 	init_args(philo_state, argc, argv);
+	init_philos(philo_state);
 	philo = malloc(philo_state->num_of_philo * sizeof(pthread_t));
 	init_threads(philo, philo_state);
+	check_dead_philo(philo_state);
+	join_threads(philo, philo_state);
 	return (0);
 }
-

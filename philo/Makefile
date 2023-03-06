@@ -6,12 +6,15 @@
 #    By: nradin <nradin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/14 13:37:00 by nradin            #+#    #+#              #
-#    Updated: 2023/03/05 14:37:05 by nradin           ###   ########.fr        #
+#    Updated: 2023/03/06 17:19:54 by nradin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS =	main.c			\
 		parse_utils.c	\
+		init.c			\
+		utils.c			\
+		threads.c		\
 
 NAME = philo
 
@@ -36,7 +39,6 @@ all: $(NAME)
 
 clean:
 	@rm -rf $(OBJS_DIR)
-
 
 fclean: clean
 	@rm -f $(NAME)
