@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:59 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/06 17:33:04 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/07 11:55:04 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,12 @@ void	make_action(t_philo_data *philo_state, int index, int action)
 		philo_state->philos[index].last_meal = \
 			ft_get_time() - philo_state->start_time;
 		philo_state->philos[index].meals += 1;
-	}
-	else if (action == SLEEP)
-	{
-		printf("%llu %d is sleeping\n", \
-			ft_get_time() - philo_state->start_time, index);
 		philo_state->philos[index].last_meal = \
 			ft_get_time() - philo_state->start_time;
 	}
+	else if (action == SLEEP)
+		printf("%llu %d is sleeping\n", \
+			ft_get_time() - philo_state->start_time, index);
 	pthread_mutex_unlock(philo_state->action);
 }
 

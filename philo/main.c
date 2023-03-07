@@ -21,7 +21,7 @@ int	check_end_conditions(t_philo_data *philo_state, uint64_t now)
 	eated = 0;
 	while (i < philo_state->num_of_philo)
 	{
-		if (now - philo_state->philos[i].last_meal > \
+		if (now > philo_state->philos[i].last_meal + \
 			philo_state->time_to_die)
 		{
 			printf("%llu %d is died\n", \
@@ -32,7 +32,6 @@ int	check_end_conditions(t_philo_data *philo_state, uint64_t now)
 		if (philo_state->num_of_eat)
 			if (philo_state->philos[i].meals == philo_state->num_of_eat)
 				eated++;
-		pthread_mutex_unlock(philo_state->action);
 		i++;
 	}
 	if (philo_state->num_of_eat && eated == philo_state->num_of_philo)
@@ -73,7 +72,7 @@ int	main(int argc, char *argv[])
 	}
 	if (!check_if_nums(argc, argv))
 	{
-		write(2, "Arguments need to have int type!\n", 34);
+		write(2, "Arguments need to have unsigned int type!\n", 34);
 		return (1);
 	}
 	philo_state = malloc(sizeof(t_philo_data));

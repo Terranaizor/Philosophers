@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 15:33:54 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/05 15:55:23 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/07 11:59:32 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	check_if_nums(int argc, char **argv)
 		while (argv[i][j] == '\f' || argv[i][j] == '\n' || argv[i][j] == '\r'
 			|| argv[i][j] == '\t' || argv[i][j] == '\v' || argv[i][j] == ' ')
 			j++;
-		if (argv[i][j] == '+' || argv[i][j] == '-')
-			j++;
-		if (!argv[i][j])
+		if (!argv[i][j] || argv[i][j] == '-')
 			return (0);
 		while (argv[i][j])
 		{
