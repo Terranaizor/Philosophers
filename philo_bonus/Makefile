@@ -6,11 +6,15 @@
 #    By: nradin <nradin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/14 13:37:00 by nradin            #+#    #+#              #
-#    Updated: 2023/03/05 14:00:23 by nradin           ###   ########.fr        #
+#    Updated: 2023/03/10 12:39:29 by nradin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS =	main.c
+SRCS =	main.c			\
+		parse_utils.c	\
+		init.c			\
+		utils.c			\
+		processes.c		\
 
 NAME = philo_bonus
 

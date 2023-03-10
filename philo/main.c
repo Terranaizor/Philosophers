@@ -29,12 +29,11 @@ int	check_end_conditions(t_philo_data *philo_state, uint64_t now)
 			philo_state->is_end = 1;
 			return (1);
 		}
-		if (philo_state->num_of_eat)
-			if (philo_state->philos[i].meals == philo_state->num_of_eat)
-				eated++;
+		if (philo_state->philos[i].meals == philo_state->num_of_eat)
+			eated++;
 		i++;
 	}
-	if (philo_state->num_of_eat && eated == philo_state->num_of_philo)
+	if (eated == philo_state->num_of_philo)
 		return (1);
 	return (0);
 }
