@@ -24,8 +24,7 @@ int	check_end_conditions(t_philo_data *philo_state, uint64_t now)
 		if (now > philo_state->philos[i].last_meal + \
 			philo_state->time_to_die)
 		{
-			printf("%llu %d is died\n", \
-				ft_get_time() - philo_state->start_time, i);
+			printf("%llu %d is died\n", now, i);
 			philo_state->is_end = 1;
 			return (1);
 		}

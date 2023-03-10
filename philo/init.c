@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:25 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/10 13:32:35 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/10 17:10:04 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	init_philos(t_philo_data *philo_state)
 		if (i > 0)
 			philo_state->philos[i].left_fork = \
 				philo_state->philos[i - 1].right_fork;
-		philo_state->philos[i].meals = -1;
+		philo_state->philos[i].meals = 0;
 		i++;
 	}
 	philo_state->philos[0].left_fork = philo_state->philos[i - 1].right_fork;
