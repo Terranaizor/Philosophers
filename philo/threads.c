@@ -6,41 +6,11 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:59 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/07 11:55:04 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/10 15:39:30 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	make_action(t_philo_data *philo_state, int index, int action)
-{
-	pthread_mutex_lock(philo_state->action);
-	if (philo_state->is_end)
-	{
-		pthread_mutex_unlock(philo_state->action);
-		return ;
-	}
-	if (action == THINK)
-		printf("%llu %d is thinking\n", \
-			ft_get_time() - philo_state->start_time, index);
-	else if (action == FORK)
-		printf("%llu %d has taken a fork\n", \
-			ft_get_time() - philo_state->start_time, index);
-	else if (action == EAT)
-	{
-		printf("%llu %d is eating\n", \
-			ft_get_time() - philo_state->start_time, index);
-		philo_state->philos[index].last_meal = \
-			ft_get_time() - philo_state->start_time;
-		philo_state->philos[index].meals += 1;
-		philo_state->philos[index].last_meal = \
-			ft_get_time() - philo_state->start_time;
-	}
-	else if (action == SLEEP)
-		printf("%llu %d is sleeping\n", \
-			ft_get_time() - philo_state->start_time, index);
-	pthread_mutex_unlock(philo_state->action);
-}
 
 void	*philo_routine(void *arg)
 {

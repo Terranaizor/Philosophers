@@ -6,43 +6,11 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:59 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/10 14:21:58 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/10 15:35:07 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	make_action(t_philo_data *philo_state, int index, int action)
-{
-	sem_wait(philo_state->action);
-	if (philo_state->is_end)
-	{
-		sem_post(philo_state->action);
-		return ;
-	}
-	if (action == THINK)
-		printf("%llu %d is thinking\n", \
-			ft_get_time() - philo_state->start_time, index);
-	else if (action == FORK)
-		printf("%llu %d has taken a fork\n", \
-			ft_get_time() - philo_state->start_time, index);
-	else if (action == EAT)
-	{
-		sem_wait(philo_state->eat_check);
-		printf("%llu %d is eating\n", \
-			ft_get_time() - philo_state->start_time, index);
-		philo_state->philos[index].last_meal = \
-			ft_get_time() - philo_state->start_time;
-		philo_state->philos[index].meals += 1;
-		philo_state->philos[index].last_meal = \
-			ft_get_time() - philo_state->start_time;
-		sem_post(philo_state->eat_check);
-	}
-	else if (action == SLEEP)
-		printf("%llu %d is sleeping\n", \
-			ft_get_time() - philo_state->start_time, index);
-	sem_post(philo_state->action);
-}
 
 void	*check_dead(void	*arg)
 {
@@ -56,10 +24,10 @@ void	*check_dead(void	*arg)
 		sem_wait(philo->state->eat_check);
 		if (now > philo->last_meal + philo->state->time_to_die)
 		{
+			sem_wait(philo->state->action);
 			printf("%llu %d is died\n", \
 				ft_get_time() - philo->state->start_time, philo->index);
 			philo->state->is_end = 1;
-			sem_wait(philo->state->action);
 			exit(1);
 		}
 		sem_post(philo->state->eat_check);
