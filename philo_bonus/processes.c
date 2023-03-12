@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:59 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/10 15:35:07 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/12 14:29:12 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,15 @@ int	init_processes(t_philo_data *philo_state)
 	{
 		philo_state->philos[i].pid = fork();
 		if (philo_state->philos[i].pid < 0)
+		{
+			i = 0;
+			while (i < philo_state->num_of_philo)
+			{
+				kill(philo_state->philos[i].pid, SIGKILL);
+				i++;
+			}
 			return (1);
+		}
 		if (philo_state->philos[i].pid == 0)
 			philo_routine(&philo_state->philos[i]);
 		i++;

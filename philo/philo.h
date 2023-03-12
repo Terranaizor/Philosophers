@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:59:03 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/10 15:52:00 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/12 13:11:35 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void		join_threads(pthread_t *philo, t_philo_data *philo_state);
 uint64_t	ft_get_time(void);
 void		ft_usleep(uint64_t wait_time);
 int			init_philos(t_philo_data *philo_state);
-void		init_args(t_philo_data *philo_state, int argc, char *argv[]);
+int			init_args(t_philo_data *philo_state, int argc, char *argv[]);
+int			free_memory(t_philo_data *philo_state);
 void		make_action(t_philo_data *philo_state, int index, int action);
 
 #endif

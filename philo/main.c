@@ -55,6 +55,21 @@ void	check_dead_philo(t_philo_data *philo_state)
 	}
 }
 
+int	check_args(int argc, char *argv[])
+{
+	if (argc < 5 || argc > 6)
+	{
+		write(2, "Wrong amount of arguments!\n", 28);
+		return (1);
+	}
+	else if (!check_if_nums(argc, argv))
+	{
+		write(2, "Arguments need to have unsigned int type!\n", 34);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	pthread_t		*philo;
@@ -62,23 +77,21 @@ int	main(int argc, char *argv[])
 
 	philo = NULL;
 	philo_state = NULL;
-	(void)argv;
-	if (argc < 5 || argc > 6)
-	{
-		write(2, "Wrong amount of arguments!\n", 28);
+	if (check_args(argc, argv))
 		return (1);
-	}
-	if (!check_if_nums(argc, argv))
-	{
-		write(2, "Arguments need to have unsigned int type!\n", 34);
-		return (1);
-	}
 	philo_state = malloc(sizeof(t_philo_data));
-	init_args(philo_state, argc, argv);
-	init_philos(philo_state);
+	if (!philo_state)
+		return (free_memory(philo_state));
+	memset(philo_state, 0, sizeof(t_philo_data));
+	if (init_args(philo_state, argc, argv) || init_philos(philo_state))
+		return (free_memory(philo_state));
 	philo = malloc(philo_state->num_of_philo * sizeof(pthread_t));
-	init_threads(philo, philo_state);
+	if (!philo)
+		return (free_memory(philo_state));
+	if (init_threads(philo, philo_state))
+		return (free_memory(philo_state));
 	check_dead_philo(philo_state);
 	join_threads(philo, philo_state);
+	free_memory(philo_state);
 	return (0);
 }

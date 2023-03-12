@@ -6,7 +6,7 @@
 /*   By: nradin <nradin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:17:59 by nradin            #+#    #+#             */
-/*   Updated: 2023/03/10 17:15:16 by nradin           ###   ########.fr       */
+/*   Updated: 2023/03/12 14:05:50 by nradin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	join_threads(pthread_t *philo, t_philo_data *philo_state)
 		pthread_join(philo[i], NULL);
 		i++;
 	}
+	free(philo);
 }
 
 int	init_threads(pthread_t *philo, t_philo_data *philo_state)
@@ -63,7 +64,10 @@ int	init_threads(pthread_t *philo, t_philo_data *philo_state)
 	{
 		if (pthread_create(&philo[i], NULL, philo_routine, \
 			&philo_state->philos[i]))
+		{
+			free(philo);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

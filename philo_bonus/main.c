@@ -29,9 +29,14 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	philo_state = malloc(sizeof(t_philo_data));
-	init_args(philo_state, argc, argv);
-	init_philos(philo_state);
-	init_semaphore(philo_state);
+	if (!philo_state)
+		return (free_memory(philo_state));
+	memset(philo_state, 0, sizeof(t_philo_data));
+	if (init_args(philo_state, argc, argv) || init_philos(philo_state))
+		return (free_memory(philo_state));
+	if (init_semaphore(philo_state))
+		return (free_memory(philo_state));
 	init_processes(philo_state);
+	free_memory(philo_state);
 	return (0);
 }
